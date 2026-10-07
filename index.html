@@ -59,6 +59,12 @@
     figure.map { margin: 0 0 1em; }
     figure.map img { box-shadow: none; border: 1px solid #ccc; }
     figcaption { font-size: .9em; margin-top: .4em; }
+    figure.map a { cursor: zoom-in; }
+    dialog#map-dialog { padding: 0; border: 0; background: transparent; width: 100vw; height: 100vh; max-width: none; max-height: none; overflow: hidden; }
+    dialog#map-dialog[open] { display: flex; align-items: center; justify-content: center; }
+    dialog#map-dialog::backdrop { background: rgba(0,0,0,.85); }
+    dialog#map-dialog img { width: auto; height: auto; max-width: 100%; max-height: 100%; box-shadow: none; cursor: zoom-out; }
+    dialog#map-dialog .close { position: fixed; top: 12px; right: 12px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; color: #000; font: 600 28px/44px "Lexend", sans-serif; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.4); }
   </style>
 </head>
 <body>
@@ -71,12 +77,25 @@
     <p><strong>Every Thursday at 7:00 p.m.</strong> Park in the lot off N. Robb St. and enter the building through the courtyard to the left of the main doors.</p>
     <p>Welcome Home is a Narcotics Anonymous (NA) group meeting in Lakewood, Colorado, close to Wheat Ridge, Arvada, Golden and west Denver.</p>
     <figure class="map">
-      <a href="https://www.google.com/maps/search/?api=1&amp;query=11500+W+20th+Ave+Lakewood+CO">
+      <a href="the-way-large.jpg" id="map-zoom" aria-label="Enlarge directions map">
         <img src="the-way.jpg" width="1000" height="472" loading="lazy"
              alt="Aerial map of Shepherd of the Hills Presbyterian at 11500 W. 20th Ave. Arrows show the way in: turn into the parking lot from N. Robb St., then walk west past the circle and through the courtyard to the door on the west side of the building.">
       </a>
-      <figcaption>Park off N. Robb St. and follow the arrows to the door. <a href="https://www.google.com/maps/search/?api=1&amp;query=11500+W+20th+Ave+Lakewood+CO">Open in Google Maps</a></figcaption>
+      <figcaption>Tap the map to enlarge. Park off N. Robb St. and follow the arrows to the door. <a href="https://www.google.com/maps/search/?api=1&amp;query=11500+W+20th+Ave+Lakewood+CO">Open in Google Maps</a></figcaption>
     </figure>
+    <dialog id="map-dialog" aria-label="Directions map">
+      <button type="button" class="close" aria-label="Close">&times;</button>
+      <img src="the-way-large.jpg" width="2100" height="992" alt="Enlarged aerial map with arrows from N. Robb St. through the parking lot and courtyard to the door.">
+    </dialog>
+    <script>
+      (function () {
+        var link = document.getElementById("map-zoom");
+        var dialog = document.getElementById("map-dialog");
+        if (!dialog.showModal) return;
+        link.addEventListener("click", function (e) { e.preventDefault(); dialog.showModal(); });
+        dialog.addEventListener("click", function (e) { if (e.target === dialog || e.target.closest(".close") || e.target.tagName === "IMG") dialog.close(); });
+      })();
+    </script>
 
     <h2>More NA resources</h2>
     <ul>
